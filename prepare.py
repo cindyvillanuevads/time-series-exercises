@@ -76,7 +76,7 @@ def distribution (df):
             plt.hist(df[col])
             plt.title(f'Distribution of {col}')
             plt.xlabel('values')
-            plt.ylabel('Counts of customers')
+            plt.ylabel('Counts ')
             plt.show()
 
 
@@ -109,3 +109,16 @@ def miss_dup_values(df):
         # Return the dataframe with missing information
     return mis_val_table_ren_columns
     
+
+def drop_low_missing_values(df, per = 1 ):
+    '''
+    takes in a df and the percentage that you want to drop of rows. the defautl value is 1%
+     remove the rows that has columuns with missing values less than 1%**
+    '''
+    
+    #drop rows with null values < per %
+    lis =((100 * df.isnull().sum() / len(df))> 0) &  ((100 * df.isnull().sum() / len(df))< per)
+    col_drop = list(lis[lis == True].index)
+    df = df.dropna(axis=0, subset = col_drop)
+    
+    return df
